@@ -1,0 +1,80 @@
+{
+  "name": "electron-react-app",
+  "version": "1.0.0",
+  "main": "main.js",
+  "description": "A cross-platform chatbot application built with Electron.js, React.js, and Tailwind CSS. Delivers a dynamic, responsive UI with modern styling and seamless performance across all platforms.",
+  "author": "Manivannan, LLC by Spritle Software.",
+  "scripts": {
+    "react-dev": "webpack serve --mode development --open",
+    "electron-dev": "electron .",
+    "start": "concurrently \"npm run react-dev\" \"npm run electron-dev\"",
+    "build-react": "webpack --mode production",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "babel src --out-dir dist",
+    "win-build": "electron-builder"
+  },
+  "keywords": [],
+  "license": "ISC",
+  "devDependencies": {
+    "@babel/cli": "^7.25.9",
+    "@babel/core": "^7.26.0",
+    "@babel/preset-env": "^7.26.0",
+    "@babel/preset-react": "^7.25.9",
+    "clean-webpack-plugin": "^4.0.0",
+    "concurrently": "^9.1.0",
+    "electron": "^33.2.0",
+    "electron-builder": "^25.1.8",
+    "electron-reload": "^2.0.0-alpha.1",
+    "mini-css-extract-plugin": "^2.9.2",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "webpack-dev-server": "^5.1.0"
+  },
+  "dependencies": {
+    "autoprefixer": "^10.4.20",
+    "axios": "^1.7.7",
+    "babel-loader": "^9.2.1",
+    "crypto-browserify": "^3.12.1",
+    "css-loader": "^7.1.2",
+    "dotenv": "^16.4.5",
+    "html-webpack-plugin": "^5.6.3",
+    "loader": "^2.1.1",
+    "openai": "^4.73.0",
+    "os-browserify": "^0.3.0",
+    "path-browserify": "^1.0.1",
+    "postcss": "^8.4.49",
+    "postcss-loader": "^8.1.1",
+    "process": "^0.11.10",
+    "stream-browserify": "^3.0.0",
+    "style-loader": "^4.0.0",
+    "tailwindcss": "^3.4.15",
+    "toastr": "^2.1.4",
+    "vm-browserify": "^1.1.2",
+    "webpack": "^5.96.1",
+    "webpack-cli": "^5.1.4"
+  },
+  "build": {
+    "appId": "com.spritle.app",
+    "productName": "Electron_Chat_Bot",
+    "files": [
+      "main.js",
+      "dist/**/*",
+      "node_modules/**/*"
+    ],
+    "mac": {
+      "target": "dmg",
+      "category": "public.app-category.utilities"
+    },
+    "win": {
+      "target": "nsis",
+      "icon": "assets/images/icons/win/icon.ico",
+      "publisherName": "Spritle Software",
+      "requestedExecutionLevel": "requireAdministrator"
+    },
+    "directories": {
+      "output": "release-builds",
+      "app": "./",
+      "buildResources": "release-builds"
+    }
+  }
+}
