@@ -8,32 +8,36 @@ const ChatBotScreen = () => {
     const [error, setError] = useState('');
 
     useEffect(() => {
-        // Listen for the response from the main process
-        window.electron.onChatResponse(({ success, text, error }) => {
-            if (inputText.trim() === '') return;
+        if (window.electron && typeof window.electron.onChatResponse === 'function') {
+            // Listen for the response from the main process
+            window.electron.onChatResponse(({ success, text, error }) => {
+                if (inputText.trim() === '') return;
 
-            // Find the last question and update it with the response
-            setConversation((prevConversation) => {
-                const newConversation = [...prevConversation];
-                const lastItem = newConversation.pop(); // Get the last question
+                // Find the last question and update it with the response
+                setConversation((prevConversation) => {
+                    const newConversation = [...prevConversation];
+                    const lastItem = newConversation.pop(); // Get the last question
 
-                // If there was a question, add the response to it
-                if (lastItem) {
-                    newConversation.push({
-                        question: lastItem.question,
-                        answer: text, // Update with the response
-                    });
+                    // If there was a question, add the response to it
+                    if (lastItem) {
+                        newConversation.push({
+                            question: lastItem.question,
+                            answer: text, // Update with the response
+                        });
+                    }
+                    return newConversation;
+                });
+
+                // Handle error
+                if (!success) {
+                    setError(error || 'An error occurred.');
+                } else {
+                    setError('');
                 }
-                return newConversation;
             });
-
-            // Handle error
-            if (!success) {
-                setError(error || 'An error occurred.');
-            } else {
-                setError('');
-            }
-        });
+        } else {
+            console.error('Electron API is not available');
+        }
 
         // Cleanup the event listener when the component unmounts
         // return () => {

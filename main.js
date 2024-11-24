@@ -16,19 +16,22 @@ let mainWindow;
 
 function createMainWindow() {
     const { width, height } = screen.getPrimaryDisplay().workAreaSize;
-    console.log("width", width)
 
     mainWindow = new BrowserWindow({
         width: 700,
         height: 800,
+        // width: width,
+        // height: height,
         icon: __dirname + "/assets/images/logo.png",
         maximizable: true,
         webPreferences: {
+            nodeIntegration: false,
             preload: path.join(__dirname, 'preload.js'),
             contextIsolation: true,
-            nodeIntegration: false,
-        },
+            enableRemoteModule: false,
+        },        
     });
+    
     mainWindow.setMenuBarVisibility(false)
     mainWindow.setResizable(true)    
     // mainWindow.webContents.openDevTools();
@@ -39,9 +42,9 @@ function createMainWindow() {
         mainWindow.loadURL('http://localhost:8080');
     } else {
         // Load the production build of React app
-        mainWindow.loadURL(`file://${path.join(__dirname, 'dist', 'index.html')}`);
+        mainWindow.loadFile(path.join(__dirname, 'dist', 'index.html'));
     }
-      
+
     mainWindow.on('closed', () => {
         mainWindow = null;
     });
@@ -63,31 +66,11 @@ app.on('window-all-closed', () => {
     if (process.platform !== 'darwin') app.quit();
 });
     
-// Listen for the 'login' event from the renderer process
-ipcMain.on('login', (event, { email, password }) => {
-    try {
-        console.log(email, password)
-      // Check the credentials (you should replace this with actual authentication logic)
-      if (email === 'test@example.com' && password === 'password') {
-        // Send a success response back to the renderer
-        event.reply('login-response', { success: true, response: 'Login successful!' });
-      } else {
-        // Send an error response back to the renderer
-        event.reply('login-response', { success: false, error: 'Invalid credentials' });
-      }
-    } catch (error) {
-      console.error('Error during login:', error);
-      event.reply('login-response', { success: false, error: 'An error occurred during login' });
-    }
-});
-
 //Using Hugging face
 
 ipcMain.on('generate-text', async (event, { inputText }) => {
     console.log('Received request to generate text.');
-
     const apiKey = process.env.HUGGINGFACE_API_KEY;
-
     if (!apiKey) {
         console.error('Hugging Face API key is not set.');
         event.reply('chat-response', {

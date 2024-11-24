@@ -1,6 +1,7 @@
 node_modules
 release-builds
 .env
+.env.production
 /dist/
 /build/
 /*.log

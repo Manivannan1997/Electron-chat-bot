@@ -22,12 +22,15 @@
     "@babel/preset-react": "^7.25.9",
     "clean-webpack-plugin": "^4.0.0",
     "concurrently": "^9.1.0",
+    "dotenv-webpack": "^8.1.0",
     "electron": "^33.2.0",
     "electron-builder": "^25.1.8",
     "electron-reload": "^2.0.0-alpha.1",
     "mini-css-extract-plugin": "^2.9.2",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
+    "webpack": "^5.96.1",
+    "webpack-cli": "^5.1.4",
     "webpack-dev-server": "^5.1.0"
   },
   "dependencies": {
@@ -49,17 +52,20 @@
     "style-loader": "^4.0.0",
     "tailwindcss": "^3.4.15",
     "toastr": "^2.1.4",
-    "vm-browserify": "^1.1.2",
-    "webpack": "^5.96.1",
-    "webpack-cli": "^5.1.4"
+    "vm-browserify": "^1.1.2"
   },
   "build": {
     "appId": "com.spritle.app",
-    "productName": "Electron_Chat_Bot",
+    "productName": "Electron Chat Bot",
     "files": [
+      "public/index.html",
+      "preload.js",
       "main.js",
       "dist/**/*",
       "node_modules/**/*"
+    ],
+    "extraResources": [
+      "assets/**"
     ],
     "mac": {
       "target": "dmg",
@@ -75,6 +81,9 @@
       "output": "release-builds",
       "app": "./",
       "buildResources": "release-builds"
-    }
+    },
+    "asarUnpack": [
+      "dist/**/*"
+    ]
   }
 }
